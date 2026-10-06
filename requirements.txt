@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+psycopg2-binary
+pgvector
+sqlalchemy
+langchain
+langgraph
+beautifulsoup4 
+lxml
