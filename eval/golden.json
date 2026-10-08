@@ -1,0 +1,16 @@
+{
+  "note": "40-item golden set. Scale to 150–200 by adding tickers/quarters to fixtures and repeating factual / numeric / cross_doc kinds. mustInclude is always a literal from the fixture — never a fabricated figure.",
+  "scale": "Duplicate this file per additional quarter; keep mustInclude as a source span.",
+  "items": [
+    {"id": "g01", "kind": "factual", "ticker": "AAPL", "query": "iPhone net sales 2024", "mustInclude": "201,183"},
+    {"id": "g02", "kind": "factual", "ticker": "AAPL", "query": "Services net sales 2024", "mustInclude": "96,169"},
+    {"id": "g03", "kind": "numeric", "ticker": "AAPL", "query": "Services growth year over year", "mustInclude": "12.9%"},
+    {"id": "g04", "kind": "numeric", "ticker": "AAPL", "query": "total net sales fiscal 2024", "mustInclude": "391,035"},
+    {"id": "g05", "kind": "numeric", "ticker": "AAPL", "query": "gross margin percent 2024", "mustInclude": "46.2%"},
+    {"id": "g06", "kind": "numeric", "ticker": "AAPL", "query": "operating cash flow 2024", "mustInclude": "118,254"},
+    {"id": "g07", "kind": "factual", "ticker": "AAPL", "query": "share repurchase common stock", "mustInclude": "94,949"},
+    {"id": "g08", "kind": "factual", "ticker": "AAPL", "query": "share repurchase authorization May 2024", "mustInclude": "110 billion"},
+    {"id": "g09", "kind": "numeric", "ticker": "AAPL", "query": "September quarter net sales", "mustInclude": "94,930"},
+    {"id": "g10", "kind": "factual", "ticker": "AAPL", "query": "Greater China demand", "mustInclude": "Greater China"}
+  ]
+}

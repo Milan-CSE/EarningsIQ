@@ -1,0 +1,31 @@
+{
+  "run_id": "logreg_baseline",
+  "params": {
+    "C": 1.0,
+    "model": "logistic_regression"
+  },
+  "metrics": {
+    "valid": {
+      "auc": 0.7395833333333333,
+      "precision": 0.8076923076923077,
+      "recall": 0.875,
+      "avg_precision": 0.8633169515216084,
+      "brier": 0.17378317731696424,
+      "n": 32,
+      "positive_rate": 0.75
+    },
+    "test": {
+      "auc": 0.8666666666666667,
+      "precision": 0.9285714285714286,
+      "recall": 0.9629629629629629,
+      "avg_precision": 0.9741533646179168,
+      "brier": 0.11498428266396482,
+      "n": 32,
+      "positive_rate": 0.84375
+    }
+  },
+  "tags": {
+    "dataset": "synthetic_panel",
+    "split": "walk_forward_quarter"
+  }
+}

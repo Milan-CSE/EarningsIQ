@@ -1,0 +1,10 @@
+# fly.io config. Do not deploy without credentials.
+app = "earningsiq"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.backend"
+
+[http_service]
+  internal_port = 8080
+  force_https = true

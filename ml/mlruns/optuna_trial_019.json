@@ -1,0 +1,25 @@
+{
+  "run_id": "optuna_trial_019",
+  "params": {
+    "max_depth": 4,
+    "n_estimators": 59,
+    "learning_rate": 0.0494170541279011,
+    "subsample": 0.8172672819443291,
+    "colsample_bytree": 0.8923005170709656,
+    "min_child_weight": 6,
+    "reg_lambda": 0.6174796236996342,
+    "objective": "binary:logistic",
+    "eval_metric": "auc",
+    "n_jobs": 1,
+    "random_state": 7
+  },
+  "metrics": {
+    "valid_auc": 0.6041666666666666
+  },
+  "tags": {
+    "dataset": "synthetic_panel",
+    "split": "walk_forward_quarter"
+  },
+  "parent": "xgb_optuna",
+  "nested": true
+}

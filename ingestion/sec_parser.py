@@ -2,7 +2,6 @@ import re
 import warnings
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
-# Filter out SEC inline-XBRL / XML parser warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 ITEMS = [
@@ -18,29 +17,39 @@ class SECFilingParser:
     def __init__(self, html_content: str):
         self.soup = BeautifulSoup(html_content, "lxml")
 
+    def _is_ixbrl_garbage(self, text: str) -> bool:
+        """Filters out non-human machine-readable taxonomy noise."""
+        if "http://fasb.org/" in text or "http://www.xbrl.org/" in text:
+            return True
+        # Ratio of letters to total characters
+        letters = len(re.findall(r"[a-zA-Z]", text))
+        if len(text) > 200 and (letters / len(text)) < 0.45:
+            return True
+        return False
+
+    def _is_financial_table(self, table_soup) -> bool:
+        """Determines if a table holds numbers/dates vs layout styling."""
+        text = table_soup.get_text()
+        has_currency = "$" in text
+        has_years = bool(re.search(r"\b20\d{2}\b", text))
+        has_numbers = len(re.findall(r"\b\d{1,3}(?:,\d{3})*(?:\.\d+)?\b", text)) >= 3
+        return (has_currency or has_years) and has_numbers
+
     def _table_to_markdown(self, table_soup) -> str:
-        """
-        Converts an HTML table into a clean markdown table string,
-        preserving row-column relationships.
-        """
         rows = table_soup.find_all("tr")
         table_data = []
         for r in rows:
             cols = [td.get_text(separator=" ", strip=True) for td in r.find_all(["td", "th"])]
-            clean_cols = [c for c in cols if c]
+            clean_cols = [re.sub(r"\s+", " ", c) for c in cols if c]
             if clean_cols:
                 table_data.append(" | ".join(clean_cols))
         return "\n".join(table_data) if len(table_data) > 1 else ""
 
     def parse(self, meta: dict) -> list[dict]:
-        """
-        Walks through the document and generates structured elements
-        tagged with complete financial context.
-        """
         records = []
         current_section = "General / Front Matter"
         elements = self.soup.find_all(["p", "div", "table"])
-        
+
         for idx, el in enumerate(elements):
             text = el.get_text(separator=" ", strip=True)
             if not text:
@@ -51,25 +60,28 @@ class SECFilingParser:
                 if re.match(rf"^\s*{key}\b", upper_text):
                     current_section = label
                     break
-            
+
             if el.name == "table":
-                md_table = self._table_to_markdown(el)
-                if md_table:
-                    records.append({
-                        "cik": meta["cik"],
-                        "company_name": meta["company_name"],
-                        "filing_type": meta["filing_type"],
-                        "reporting_period": meta["reporting_period"],
-                        "section": current_section,
-                        "subsection": None,
-                        "content_type": "table",
-                        "content": md_table,
-                        "table_context": "Financial Statement / Disclosure Table",
-                        "source_location": f"{current_section}#elem_{idx}"
-                    })
+                if self._is_financial_table(el):
+                    md_table = self._table_to_markdown(el)
+                    if md_table:
+                        records.append({
+                            "cik": meta["cik"],
+                            "company_name": meta["company_name"],
+                            "filing_type": meta["filing_type"],
+                            "reporting_period": meta["reporting_period"],
+                            "section": current_section,
+                            "subsection": None,
+                            "content_type": "table",
+                            "content": md_table,
+                            "table_context": "Financial Metrics / Disclosure Table",
+                            "source_location": f"{current_section}#elem_{idx}"
+                        })
             else:
-                # Store prose blocks with substantive content
-                if len(text.split()) > 15:
+                if self._is_ixbrl_garbage(text):
+                    continue
+                # Keep meaningful paragraphs (more than 20 words)
+                if len(text.split()) > 20:
                     records.append({
                         "cik": meta["cik"],
                         "company_name": meta["company_name"],
@@ -78,7 +90,7 @@ class SECFilingParser:
                         "section": current_section,
                         "subsection": None,
                         "content_type": "prose",
-                        "content": text,
+                        "content": re.sub(r"\s+", " ", text),
                         "table_context": None,
                         "source_location": f"{current_section}#elem_{idx}"
                     })

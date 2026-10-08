@@ -1,15 +1,36 @@
+# Local MLOps stack for a clone with Docker. The interactive desk in this
+# workspace is the Vite app (npm run dev) — docker-compose is the Python sidecar.
 services:
-  db:
+  postgres:
     image: pgvector/pgvector:pg16
-    container_name: earningsiq_db
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_PASSWORD: earningsiq
       POSTGRES_DB: earningsiq
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.17.2
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root /mlartifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow:/mlartifacts
+  langfuse:
+    image: langfuse/langfuse:2
+    environment:
+      DATABASE_URL: postgresql://postgres:earningsiq@postgres:5432/langfuse
+      NEXTAUTH_SECRET: changeme
+      NEXTAUTH_URL: http://localhost:3000
+      SALT: changeme
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
 volumes:
   pgdata:
+  mlflow:

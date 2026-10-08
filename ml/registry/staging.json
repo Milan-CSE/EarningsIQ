@@ -1,0 +1,72 @@
+{
+  "name": "guidance-beat-logreg",
+  "version": "1",
+  "alias": "staging",
+  "algorithm": "logistic",
+  "features": [
+    "last_4q_beat_rate",
+    "surprise_lag1",
+    "revenue_growth_yoy",
+    "gross_margin_delta",
+    "call_sentiment",
+    "hedge_token_rate",
+    "guidance_range_width",
+    "ocf_to_ni",
+    "share_count_change",
+    "sector_momentum",
+    "implied_move",
+    "short_interest_proxy"
+  ],
+  "baseScore": 0.0,
+  "coefficients": {
+    "last_4q_beat_rate": 0.9214073182268065,
+    "surprise_lag1": 0.18435529126610373,
+    "revenue_growth_yoy": 0.050883185596613964,
+    "gross_margin_delta": 0.1953415933237281,
+    "call_sentiment": 0.0506969980972162,
+    "hedge_token_rate": -0.08651674610030867,
+    "guidance_range_width": 0.03834615101613894,
+    "ocf_to_ni": -0.046305146365997876,
+    "share_count_change": -0.1347084573693475,
+    "sector_momentum": 0.00419273742915402,
+    "implied_move": -0.2150944822932496,
+    "short_interest_proxy": -0.09071487005237097
+  },
+  "intercept": 0.2612527936193921,
+  "scaler_mean": [
+    0.523778252841367,
+    0.009611663844452938,
+    0.10100725464372505,
+    0.002884164866731268,
+    0.11309285173446854,
+    0.02962640779634937,
+    0.02922449249129729,
+    1.18134202042063,
+    -0.009781226993772511,
+    0.025618646881578003,
+    0.04130882859456057,
+    0.02020140494851952
+  ],
+  "scaler_scale": [
+    0.2695522889621226,
+    0.026152165309611355,
+    0.17752087772752673,
+    0.01906196581039341,
+    0.1498065157058505,
+    0.014653642874161245,
+    0.01835744130002487,
+    0.2271753767310822,
+    0.016033515504641372,
+    0.0460868180534145,
+    0.019181985984839677,
+    0.009896662777481323
+  ],
+  "metrics": {
+    "auc": 0.8666666666666667,
+    "precision": 0.9285714285714286,
+    "recall": 0.9629629629629629,
+    "baselineAuc": 0.8666666666666667,
+    "split": "walk_forward: train<=2023Q4, valid=2024Q1-Q2, test=2024Q3-Q4"
+  },
+  "notes": "Logistic baseline beat tuned XGBoost on the walk-forward test window, so baseline was promoted. Comparison is in ml/mlruns."
+}

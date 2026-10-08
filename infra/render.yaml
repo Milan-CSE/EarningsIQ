@@ -1,0 +1,12 @@
+# One-command deploy config for Render. Do not deploy without credentials.
+services:
+  - type: web
+    name: earningsiq
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview -- --host 0.0.0.0 --port 8080
+    envVars:
+      - key: XAI_API_KEY
+        sync: false
+      - key: SEC_EDGAR_USER_AGENT
+        sync: false

@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-verify: var(--verify);
+  --color-caution: var(--caution);
+  --color-fail: var(--fail);
+  --color-elevated: var(--elevated);
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+}
+
+:root {
+  --background: #0a0b0c;
+  --foreground: #ecebe6;
+  --card: #121416;
+  --card-foreground: #ecebe6;
+  --popover: #16191c;
+  --popover-foreground: #ecebe6;
+  --primary: #c5cdd6;
+  --primary-foreground: #0a0b0c;
+  --secondary: #1a1d20;
+  --secondary-foreground: #ecebe6;
+  --muted: #1a1d20;
+  --muted-foreground: #9a9b96;
+  --accent: #1e2328;
+  --accent-foreground: #ecebe6;
+  --destructive: #c46b5a;
+  --border: color-mix(in oklab, #ecebe6 12%, transparent);
+  --input: color-mix(in oklab, #ecebe6 14%, transparent);
+  --ring: #c5cdd6;
+  --verify: #7aa392;
+  --caution: #c4a574;
+  --fail: #c46b5a;
+  --elevated: #1a1d20;
+  --shadow-border: 0 0 0 1px color-mix(in oklab, #ecebe6 10%, transparent);
+  --shadow-border-hover: 0 0 0 1px color-mix(in oklab, #ecebe6 16%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, transparent);
+    color: var(--foreground);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

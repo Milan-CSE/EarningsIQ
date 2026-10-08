@@ -1,0 +1,8 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY pyproject.toml /app/
+COPY backend ingestion agents ml eval eda fixtures /app/
+RUN pip install --no-cache-dir fastapi uvicorn pydantic pandas numpy scikit-learn xgboost optuna
+ENV PYTHONPATH=/app
+EXPOSE 8000
+CMD ["python", "-c", "print('Use the Vite desk for the live UI; this image is the Python sidecar.')"]

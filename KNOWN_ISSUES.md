@@ -1,0 +1,6 @@
+- Live EDGAR / FMP / Whisper / bge-large are not called in this environment. The desk runs on a labeled fixture corpus. Swap points are documented in `ingestion/` and `src/lib/research/retrieve.ts`.
+- ragas and deepeval are optional extras. The CI gate is the deterministic 40-question golden set plus the numeric regex checker.
+- FastAPI is an optional sidecar. The interactive product is the Vite / TanStack desk.
+- On a small synthetic panel the logistic baseline beat tuned XGBoost on the walk-forward test window; that comparison is logged in `ml/mlruns/` and the baseline was promoted. Re-run `python -m ml.train` after expanding the panel.
+- Langfuse is file-stubbed (`src/lib/research/tracing.ts`) unless LANGFUSE keys and the docker service are present.
+- Platform `scripts/grok-pwa-plugin.test.mjs` cases that omit an isolated `cwd` read this app's `src/lib/og/site.json` (custom card). Product research tests, typecheck, and the production build pass.
